@@ -25,14 +25,16 @@ public class CustomerFileHandler {
         );
         String customerInfo = reader.readLine();
         do {
-            Bank.customers.add(castStringToCustomer(customerInfo));
+            Customer customerClass = castStringToCustomer(customerInfo);
+            Bank.customers.add(customerClass);
+            Bank.customerMap.put(customerClass.customerId, customerClass);
             customerInfo = reader.readLine();
         } while (customerInfo != null);
         reader.close();
-        
+
         int refPosition = Bank.customers.size() - 1;
-        Bank.refCustomerId = customers.get(refPosition).customerId;
-        Bank.refAccountNumber = customers.get(refPosition).accountId;
+        Bank.refCustomerId = Bank.customers.get(refPosition).customerId;
+        Bank.refAccountNumber = Bank.customers.get(refPosition).accountId;
     }
 
     private Customer castStringToCustomer(String customerInfo) {

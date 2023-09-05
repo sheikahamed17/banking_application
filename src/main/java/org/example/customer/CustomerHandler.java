@@ -21,6 +21,13 @@ public class CustomerHandler {
             System.out.println("Add customer failed: Mismatch password");
             return;
         }
+        if (!isValidPassword(password)) {
+            System.out.println("Add customer failed: Invalid password");
+            return;
+        }
+
+        password = getEncryptedPassword(password);
+
         Bank.refCustomerId++;
         Bank.refAccountNumber++;
 
@@ -35,5 +42,52 @@ public class CustomerHandler {
         CustomerFileHandler.getInstance().addCustomerToFile(c);
     }
 
-    private String 
+    private boolean isValidPassword(String password) {
+        char[] passChar = password.toCharArray();
+        for (char temp : passChar) {
+            if ((temp >= 97 && temp <= 122) || (temp >= 65 && temp <= 90) || (temp >= 48 && temp <= 57)) {
+                continue;
+            } else
+                return false;
+        }
+        return true;
+    }
+
+    private String getEncryptedPassword(String password) {
+        char[] passChar = password.toCharArray();
+        for (int i = 0; i < passChar.length; i++) {
+            if (passChar[i] == 'Z' || passChar[i] == 'z' || passChar[i] == '9') {
+                switch (passChar[i]) {
+                    case 'z':
+                        passChar[i] = 'a';
+                        break;
+                    case 'Z':
+                        passChar[i] = 'A';
+                        break;
+                    case '9':
+                        passChar[i] = '0';
+                        break;
+                }
+
+            } else {
+                passChar[i] = (char) (passChar[i] + 1);
+            }
+        }
+        return String.valueOf(passChar);
+    }
+
+    public void authenticateCustomer(int customerId, String password) {
+        String encryptedPass = getEncryptedPassword(password);
+
+        Customer c = Bank.customerMap.get(customerId);
+        if (c == null) {
+            System.out.println("Invalid customer Id");
+            return;
+        }
+        if (encryptedPass.equals(c.password)) {
+            System.out.println("Valid User");
+        } else {
+            System.out.println("Invalid User");
+        }
+    }
 }

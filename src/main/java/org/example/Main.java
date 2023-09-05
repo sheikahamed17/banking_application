@@ -1,13 +1,12 @@
 package org.example;
 
-import org.example.bank.Bank;
 import org.example.customer.CustomerFileHandler;
 import org.example.customer.CustomerHandler;
 
 import java.io.IOException;
+import java.util.Scanner;
 
-// Press Shift twice to open the Search Everywhere dialog and type `show whitespaces`,
-// then press Enter. You can now see whitespace characters in your code.
+
 public class Main {
     public static void main(String[] args) {
         CustomerFileHandler handler = new CustomerFileHandler();
@@ -16,10 +15,41 @@ public class Main {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        printMenu();
+    }
 
-        CustomerHandler handler1 = new CustomerHandler();
-        handler1.addCustomer();
+    static void printMenu() {
+        System.out.println("Please select an option: ");
+        System.out.println("1. Create User:");
+        System.out.println("2. Deposit:");
+        System.out.println("3. Withdraw:");
+        System.out.println("4. Fund transfer:");
 
-        System.out.println(Bank.customers.get(2).name);
+        try {
+            Scanner in = new Scanner(System.in);
+            int option = in.nextInt();
+            CustomerHandler handler1 = new CustomerHandler();
+            switch (option) {
+                case 1:
+                    handler1.addCustomer();
+                    break;
+                case 2:
+
+                case 3:
+                    
+                case 4:
+                    System.out.println("Enter customer id: ");
+                    int customerId = in.nextInt();
+                    System.out.println("Enter password: ");
+                    String password = in.next();
+                    handler1.authenticateCustomer(customerId, password);
+                    break;
+                default:
+                    System.out.println("Invalid option");
+            }
+        } catch (Exception e) {
+            System.out.println("Invalid Input");
+        }
+
     }
 }
