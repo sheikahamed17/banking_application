@@ -1,5 +1,6 @@
 package org.example;
 
+import org.example.bank.AccountActionHandler;
 import org.example.customer.CustomerFileHandler;
 import org.example.customer.CustomerHandler;
 
@@ -16,6 +17,7 @@ public class Main {
             e.printStackTrace();
         }
         printMenu();
+        handler.finalizeFile();
     }
 
     static void printMenu() {
@@ -29,20 +31,19 @@ public class Main {
             Scanner in = new Scanner(System.in);
             int option = in.nextInt();
             CustomerHandler handler1 = new CustomerHandler();
+            AccountActionHandler accountHandler = new AccountActionHandler();
             switch (option) {
                 case 1:
                     handler1.addCustomer();
                     break;
                 case 2:
-
+                    deposit();
+                    break;
                 case 3:
-                    
+                    withDraw();
+                    break;
                 case 4:
-                    System.out.println("Enter customer id: ");
-                    int customerId = in.nextInt();
-                    System.out.println("Enter password: ");
-                    String password = in.next();
-                    handler1.authenticateCustomer(customerId, password);
+                    transfer();
                     break;
                 default:
                     System.out.println("Invalid option");
@@ -51,5 +52,52 @@ public class Main {
             System.out.println("Invalid Input");
         }
 
+    }
+
+    private static void transfer() {
+        Scanner in = new Scanner(System.in);
+        CustomerHandler handler1 = new CustomerHandler();
+        AccountActionHandler accountHandler = new AccountActionHandler();
+        System.out.println("Enter customer id: ");
+        int customerId = in.nextInt();
+        System.out.println("Enter password: ");
+        String password = in.next();
+        if (handler1.authenticateCustomer(customerId, password)) {
+            System.out.println("Enter customer id to transfer: ");
+            int toCustomerId = in.nextInt();
+            System.out.println("Enter transfer amount: ");
+            double amount = in.nextDouble();
+            accountHandler.transfer(customerId, toCustomerId, amount);
+        }
+    }
+
+    private static void withDraw() {
+        Scanner in = new Scanner(System.in);
+        CustomerHandler handler1 = new CustomerHandler();
+        AccountActionHandler accountHandler = new AccountActionHandler();
+        System.out.println("Enter customer id: ");
+        int customerId = in.nextInt();
+        System.out.println("Enter password: ");
+        String password = in.next();
+        if (handler1.authenticateCustomer(customerId, password)) {
+            System.out.println("Enter withdraw amount: ");
+            double amount = in.nextDouble();
+            accountHandler.withDraw(customerId, amount);
+        }
+    }
+
+    private static void deposit() {
+        Scanner in = new Scanner(System.in);
+        CustomerHandler handler1 = new CustomerHandler();
+        AccountActionHandler accountHandler = new AccountActionHandler();
+        System.out.println("Enter customer id: ");
+        int customerId = in.nextInt();
+        System.out.println("Enter password: ");
+        String password = in.next();
+        if (handler1.authenticateCustomer(customerId, password)) {
+            System.out.println("Enter deposit amount: ");
+            double amount = in.nextDouble();
+            accountHandler.deposit(customerId, amount);
+        }
     }
 }

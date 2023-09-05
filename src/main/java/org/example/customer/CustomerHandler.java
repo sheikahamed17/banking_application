@@ -76,18 +76,20 @@ public class CustomerHandler {
         return String.valueOf(passChar);
     }
 
-    public void authenticateCustomer(int customerId, String password) {
+    public boolean authenticateCustomer(int customerId, String password) {
         String encryptedPass = getEncryptedPassword(password);
 
         Customer c = Bank.customerMap.get(customerId);
         if (c == null) {
             System.out.println("Invalid customer Id");
-            return;
+            return false;
         }
         if (encryptedPass.equals(c.password)) {
             System.out.println("Valid User");
+            return true;
         } else {
             System.out.println("Invalid User");
         }
+        return false;
     }
 }

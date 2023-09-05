@@ -1,5 +1,6 @@
-1 11011 kumar 10000 sdfrwe
-2 11012 Roja 200000 Cbdereoljoh
+1 11011 kumar 10000.0 sdfrwe
+2 11012 Roja 200000.0 Cbdereoljoh
 3 11013 sheik 10000.0 1234
 4 11014 ahamed 10000.0 A0a
-5 11015 sd 10000.0 bcd230
+5 11015 sd 10100.0 bcd230
+6 11016 sample 11900.0 uftu

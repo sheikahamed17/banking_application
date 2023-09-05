@@ -4,6 +4,8 @@ import org.example.bank.Bank;
 
 import java.io.*;
 import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.Set;
 
 public class CustomerFileHandler {
 
@@ -56,6 +58,33 @@ public class CustomerFileHandler {
             writer = new BufferedWriter(
                     new FileWriter(file, true));
             writer.write("\n" + customer.toString());
+
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        } finally {
+            if (writer != null) {
+                try {
+                    writer.close();
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+        }
+    }
+
+    public void finalizeFile() {
+        File file = new File(filename);
+        BufferedWriter writer = null;
+        try {
+            writer = new BufferedWriter(
+                    new FileWriter(file));
+            Set keySet = Bank.customerMap.keySet();
+            Iterator iterator = keySet.iterator();
+            while (iterator.hasNext()) {
+                int customerId = (int) iterator.next();
+                Customer customer = Bank.customerMap.get(customerId);
+                writer.write(customer.toString() + "\n");
+            }
 
         } catch (IOException e) {
             throw new RuntimeException(e);
