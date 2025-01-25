@@ -1,6 +1,8 @@
 package org.example.bank;
 
 import org.example.customer.Customer;
+import org.example.transaction.Transaction;
+import org.example.transaction.TransactionHandler;
 
 public class AccountActionHandler {
 
@@ -12,6 +14,12 @@ public class AccountActionHandler {
         customer.balance += amount;
 
         Bank.customerMap.put(customerId, customer);
+
+        TransactionHandler handler = new TransactionHandler();
+        int lastTransactionId = handler.getLastTransactionId(customerId);
+
+        Transaction transaction = new Transaction(lastTransactionId++, "Deposit", amount, customer.balance);
+        handler.writeTransaction(customerId, transaction);
     }
 
     public boolean withDraw(int customerId, double amount) {
@@ -21,6 +29,13 @@ public class AccountActionHandler {
         if (balance >= 1000) {
             customer.balance = balance;
             Bank.customerMap.put(customerId, customer);
+
+            TransactionHandler handler = new TransactionHandler();
+            int lastTransactionId = handler.getLastTransactionId(customerId);
+
+            Transaction transaction = new Transaction(lastTransactionId++, "Withdraw", amount, customer.balance);
+            handler.writeTransaction(customerId, transaction);
+
             return true;
         }
         System.out.println("Insufficient balance");
@@ -39,6 +54,5 @@ public class AccountActionHandler {
         if (isSuccess) {
             deposit(toCustomerId, amount);
         }
-
     }
 }

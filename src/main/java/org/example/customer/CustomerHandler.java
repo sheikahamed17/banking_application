@@ -1,6 +1,8 @@
 package org.example.customer;
 
 import org.example.bank.Bank;
+import org.example.transaction.Transaction;
+import org.example.transaction.TransactionHandler;
 
 import java.util.Scanner;
 
@@ -40,6 +42,19 @@ public class CustomerHandler {
         );
         Bank.customers.add(c);
         CustomerFileHandler.getInstance().addCustomerToFile(c);
+
+        logTransaction(Bank.refCustomerId);
+    }
+
+    private void logTransaction(int customerId) {
+        Transaction transaction = new Transaction(
+                1,
+                "Opening",
+                10000,
+                10000
+        );
+        TransactionHandler handler = new TransactionHandler();
+        handler.writeTransaction(customerId, transaction);
     }
 
     private boolean isValidPassword(String password) {
