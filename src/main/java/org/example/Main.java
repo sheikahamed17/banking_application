@@ -9,6 +9,7 @@ import java.util.Scanner;
 
 
 public class Main {
+    @SuppressWarnings("CallToPrintStackTrace")
     public static void main(String[] args) {
         CustomerFileHandler handler = new CustomerFileHandler();
         try {
@@ -31,7 +32,6 @@ public class Main {
             Scanner in = new Scanner(System.in);
             int option = in.nextInt();
             CustomerHandler handler1 = new CustomerHandler();
-            AccountActionHandler accountHandler = new AccountActionHandler();
             switch (option) {
                 case 1:
                     handler1.addCustomer();
